@@ -1,12 +1,13 @@
 // Renders a whole page of forms through a skewed perspective and checks the reader picks the aimed-at form.
 import { expect, test } from 'vitest'
-import { BUBBLE_R, MARKER, ORIENT, PAGE, cellOrigins, layoutForm, type Pt } from '../sheetLayout'
+import { PAGE, cellOrigins, layoutForm, type Pt } from '../sheetLayout'
 import { homography, project } from './homography'
 import { readSheet } from './readSheet'
 import type { SheetForm } from '../../types'
 
 const form: SheetForm = { title: 'T', items: 30, choices: 4, idDigits: 4, fields: ['Name', 'Section'], instructions: 'Shade fully', perPage: 4 }
 const L = layoutForm(form)
+const { marker: MARKER, bubbleR: BUBBLE_R, orient: ORIENT } = L
 const sheets = cellOrigins(4).map((_, k) => ({
   id: `${k + 1}07${k}`,
   answers: Array.from({ length: 30 }, (_, i) => ((i + k) % 6 === 5 ? 0 : 1 << (i + k) % 4)),
@@ -28,8 +29,8 @@ function render(pageCorners: Pt[], width = 1000, height = 1300) {
         const q = { x: p.x - o.x, y: p.y - o.y }
         if (q.x < -MARKER || q.y < -MARKER || q.x > L.w + MARKER || q.y > L.h + MARKER) return
         const d = (c: Pt) => Math.hypot(q.x - c.x, q.y - c.y)
-        const near = (c: Pt) => Math.abs(q.y - c.y) < 2.5
-        if (outlines.some((c) => near(c) && Math.abs(d(c) - BUBBLE_R) < 0.15)) v = 100
+        const near = (c: Pt) => Math.abs(q.y - c.y) < 2.5 * L.scale
+        if (outlines.some((c) => near(c) && Math.abs(d(c) - BUBBLE_R) < 0.15 * L.scale)) v = 100
         const fills = [
           ...L.items.flatMap((it, i) => it.bubbles.filter((_, c) => sheets[k].answers[i] & (1 << c))),
           ...[...sheets[k].id].map((dg, c) => L.id[c][+dg]),

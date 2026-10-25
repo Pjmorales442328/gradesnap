@@ -1,5 +1,5 @@
 // Reads student ID and answer bubbles from a grayscale photo containing one or more printed forms.
-import { BUBBLE_R, MARKER, ORIENT, layoutForm, type FormLayout, type Pt } from '../sheetLayout'
+import { layoutForm, type FormLayout, type Pt } from '../sheetLayout'
 import type { SheetForm } from '../../types'
 import { findMarkers, type Gray } from './findMarkers'
 import { homography, project, type Homography } from './homography'
@@ -29,9 +29,9 @@ function mean(img: Gray, h: Homography, c: Pt, r: number): number {
 }
 
 function readWith(img: Gray, h: Homography, layout: FormLayout): Omit<SheetRead, 'h' | 'layout'> | null {
-  const { w: W, h: H } = layout
+  const { w: W, h: H, marker: MARKER, orient: ORIENT } = layout
   const corners = [{ x: 0, y: 0 }, { x: W, y: 0 }, { x: 0, y: H }, { x: W, y: H }]
-  const r = BUBBLE_R * 0.6
+  const r = layout.bubbleR * 0.6
   const black = corners.reduce((s, c) => s + mean(img, h, c, MARKER / 4), 0) / 4
   const idVals = layout.id.map((col) => col.map((c) => mean(img, h, c, r)))
   const itemVals = layout.items.map((it) => it.bubbles.map((c) => mean(img, h, c, r)))
@@ -62,7 +62,7 @@ function readWith(img: Gray, h: Homography, layout: FormLayout): Omit<SheetRead,
 export function readSheet(img: Gray, form: SheetForm): SheetRead | null {
   const layout = layoutForm(form)
   const frame = [{ x: 0, y: 0 }, { x: layout.w, y: 0 }, { x: 0, y: layout.h }, { x: layout.w, y: layout.h }]
-  const shape = { aspect: layout.w / layout.h, markerRatio: MARKER / layout.w }
+  const shape = { aspect: layout.w / layout.h, markerRatio: layout.marker / layout.w }
   for (const [tl, tr, bl, br] of findMarkers(img, shape)) {
     for (const dst of [[tl, tr, bl, br], [br, bl, tr, tl]]) { // upright, then upside-down
       const h = homography(frame, dst)

@@ -1,5 +1,4 @@
 // Paints the detected frame and graded bubbles over the camera view (canvas in gray-image pixels).
-import { BUBBLE_R } from '../../lib/sheetLayout'
 import { project } from '../../lib/omr/homography'
 import { isCorrect } from '../../lib/grade'
 import type { SheetRead } from '../../lib/omr/readSheet'
@@ -20,7 +19,8 @@ export function drawOverlay(ctx: CanvasRenderingContext2D, read: SheetRead | nul
     const ok = isCorrect(read.answers[i], key[i])
     it.bubbles.forEach((b, c) => {
       const p = project(h, b)
-      const r = Math.hypot(project(h, { x: b.x + BUBBLE_R, y: b.y }).x - p.x, project(h, { x: b.x + BUBBLE_R, y: b.y }).y - p.y)
+      const e = project(h, { x: b.x + layout.bubbleR, y: b.y })
+      const r = Math.hypot(e.x - p.x, e.y - p.y)
       const marked = read.answers[i] & (1 << c)
       ctx.beginPath()
       ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
