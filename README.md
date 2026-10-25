@@ -21,6 +21,10 @@ Offline-first bubble-sheet grader (ZipGrade-style) that runs in a phone browser.
 - Light and dark mode
 - Works offline after first load (service worker); data stays in the browser (IndexedDB)
 
+## Live
+
+https://pjmorales442328.github.io/gradesnap/ — deployed by `.github/workflows/pages.yml` on every push to `master`.
+
 ## Run
 
 ```bash
