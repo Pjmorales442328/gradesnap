@@ -1,16 +1,15 @@
-// One quiz with tabs: sheet form, answer key, print, scan, results, item analysis.
+// One quiz with tabs: sheet designer, answer key, scan, results, item analysis.
 import type { AppData, Quiz } from '../../types'
 import type { Update } from '../../hooks/useAppData'
 import { go } from '../../hooks/useHashRoute'
 import { FormEditor } from './FormEditor'
 import { KeyEditor } from './KeyEditor'
-import { PrintSheet } from './PrintSheet'
 import { saveQuiz } from './quizModel'
 import { Scanner } from '../scan/Scanner'
 import { Results } from '../results/Results'
 import { ItemAnalysis } from '../results/ItemAnalysis'
 
-const TABS = [['form', 'Sheet'], ['key', 'Key'], ['print', 'Print'], ['scan', 'Scan'], ['results', 'Results'], ['analysis', 'Analysis']]
+const TABS = [['form', 'Sheet'], ['key', 'Key'], ['scan', 'Scan'], ['results', 'Results'], ['analysis', 'Analysis']]
 
 export function QuizPage({ quiz, tab, data, update }: { quiz: Quiz; tab: string; data: AppData; update: Update }) {
   const save = (q: Quiz) => update((d) => saveQuiz(d, q))
@@ -29,7 +28,6 @@ export function QuizPage({ quiz, tab, data, update }: { quiz: Quiz; tab: string;
       </nav>
       {tab === 'form' && <FormEditor quiz={quiz} data={data} save={save} remove={remove} />}
       {tab === 'key' && <KeyEditor quiz={quiz} save={save} />}
-      {tab === 'print' && <PrintSheet quiz={quiz} />}
       {tab === 'scan' && <Scanner quiz={quiz} data={data} update={update} save={save} />}
       {tab === 'results' && <Results quiz={quiz} data={data} update={update} />}
       {tab === 'analysis' && <ItemAnalysis quiz={quiz} data={data} />}

@@ -2,7 +2,7 @@
 import type { AppData, Quiz, SheetForm } from '../../types'
 import { scoreOf } from '../../lib/grade'
 
-export const DEFAULT_FORM: SheetForm = { title: 'Quiz', items: 20, choices: 4, idDigits: 6, fields: ['Name', 'Section', 'Date'] }
+export const DEFAULT_FORM: SheetForm = { title: 'Quiz', items: 20, choices: 4, idDigits: 4, fields: ['Name', 'Section', 'Date'], instructions: '', perPage: 2 }
 
 export const newQuiz = (): Quiz => ({
   id: crypto.randomUUID(),

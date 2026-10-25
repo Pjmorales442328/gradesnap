@@ -18,6 +18,8 @@ export interface SheetForm {
   choices: number; // 2..6
   idDigits: number; // 0..10
   fields: string[]; // header write-in lines, e.g. Name, Section
+  instructions: string; // free text under the title, up to 4 lines
+  perPage: number; // forms printed per A4 page: 1, 2, 3, 4, 6, 8
 }
 
 export interface Quiz {

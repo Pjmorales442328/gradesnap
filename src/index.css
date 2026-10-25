@@ -40,7 +40,7 @@ button.link { border: 0; background: none; padding: 2px 4px; text-decoration: un
 .tabs a { padding: 8px 12px; text-decoration: none; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; }
 .tabs a.active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
 
-.form { display: grid; gap: 12px; max-width: 480px; }
+.form { display: grid; gap: 12px; max-width: 480px; align-content: start; }
 .form label { display: grid; gap: 4px; font-size: 0.9rem; color: var(--muted); }
 input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--text); }
 
@@ -50,7 +50,10 @@ input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid va
 .bubble { width: 34px; height: 34px; border-radius: 50%; padding: 0; font-size: 0.8rem; }
 .bubble.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.print-area { margin-top: 14px; overflow: auto; border: 1px solid var(--line); }
+.designer { display: grid; gap: 16px; }
+@media (min-width: 900px) { .designer { grid-template-columns: 360px 1fr; } main:has(.designer) { max-width: 1200px; } }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.print-area { align-self: start; overflow: auto; border: 1px solid var(--line); }
 .print-area .sheet { display: block; width: 100%; height: auto; }
 
 .viewfinder { position: relative; background: #000; border-radius: 10px; overflow: hidden; }
@@ -81,4 +84,8 @@ td.reject { color: var(--bad); }
   .print-area, .print-area * { visibility: visible; }
   .print-area { position: absolute; left: 0; top: 0; margin: 0; border: 0; overflow: visible; }
   .print-area .sheet { width: 210mm; height: 297mm; }
+}
+.viewfinder .banner {
+  position: absolute; top: 10px; left: 10px; right: 10px; padding: 10px 14px; border-radius: 10px;
+  background: rgba(15, 118, 110, 0.92); color: #fff; font-size: 1.2rem; font-weight: 700; text-align: center;
 }
