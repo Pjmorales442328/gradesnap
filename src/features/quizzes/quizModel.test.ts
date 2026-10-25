@@ -9,3 +9,9 @@ test('copyQuiz copies form/key/competencies with a new id, without sharing array
   c.key[0] = 4
   expect(q.key[0]).toBe(1)
 })
+
+test('every preset fits on its page', async () => {
+  const { PRESETS, DEFAULT_FORM } = await import('./quizModel')
+  const { layoutForm } = await import('../../lib/sheetLayout')
+  for (const p of PRESETS) expect(layoutForm({ ...DEFAULT_FORM, ...p.form }).capacity, p.name).toBeGreaterThanOrEqual(p.form.items)
+})

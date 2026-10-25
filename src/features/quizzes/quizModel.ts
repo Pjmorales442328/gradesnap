@@ -4,6 +4,15 @@ import { scoreOf } from '../../lib/grade'
 
 export const DEFAULT_FORM: SheetForm = { title: 'Quiz', items: 20, choices: 4, idDigits: 4, fields: ['Name', 'Section', 'Date'], instructions: '', perPage: 2 }
 
+// Ready-made sheet layouts; header text is kept when one is applied.
+export const PRESETS: { name: string; form: Pick<SheetForm, 'items' | 'choices' | 'idDigits' | 'perPage'> }[] = [
+  { name: 'Short quiz — 10 items, 6 per page', form: { items: 10, choices: 4, idDigits: 4, perPage: 6 } },
+  { name: 'Quiz — 20 items, 4 per page', form: { items: 20, choices: 4, idDigits: 4, perPage: 4 } },
+  { name: 'Long test — 50 items, 2 per page', form: { items: 50, choices: 4, idDigits: 6, perPage: 2 } },
+  { name: 'Periodical exam — 100 items, 1 per page', form: { items: 100, choices: 4, idDigits: 6, perPage: 1 } },
+  { name: 'True / False — 30 items, 4 per page', form: { items: 30, choices: 2, idDigits: 4, perPage: 4 } },
+]
+
 export const newQuiz = (): Quiz => ({
   id: crypto.randomUUID(),
   form: { ...DEFAULT_FORM, title: `Quiz ${new Date().toLocaleDateString()}` },

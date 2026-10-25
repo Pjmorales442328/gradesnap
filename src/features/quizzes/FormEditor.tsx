@@ -2,7 +2,7 @@
 import type { AppData, Quiz, SheetForm } from '../../types'
 import { PER_PAGE, layoutForm } from '../../lib/sheetLayout'
 import { AnswerSheet } from '../../components/AnswerSheet'
-import { withForm } from './quizModel'
+import { PRESETS, withForm } from './quizModel'
 
 interface Props { quiz: Quiz; data: AppData; save: (q: Quiz) => void; remove: () => void; duplicate: () => void }
 
@@ -17,6 +17,12 @@ export function FormEditor({ quiz, data, save, remove, duplicate }: Props) {
   return (
     <div className="designer">
       <div className="form">
+        <label>Template
+          <select value="" onChange={(e) => e.target.value && set(PRESETS[+e.target.value].form)}>
+            <option value="">Choose a ready-made layout…</option>
+            {PRESETS.map((p, i) => <option key={p.name} value={i}>{p.name}</option>)}
+          </select>
+        </label>
         <label>Title<input value={f.title} onChange={(e) => set({ title: e.target.value })} /></label>
         <label>Text under title (up to 4 lines)
           <textarea rows={3} value={f.instructions} placeholder="e.g. Shade the circle of your answer completely." onChange={(e) => set({ instructions: e.target.value })} />

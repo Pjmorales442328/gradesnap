@@ -11,7 +11,28 @@ const Bubble = ({ c, label }: { c: Pt; label: string }) => (
   </g>
 )
 
+// Marking guide drawn below the frame, outside the scanned area: one right example, three wrong ones.
+function MarkGuide({ x, y }: Pt) {
+  const r = BUBBLE_R, cy = y + 5, line = { fill: 'none', stroke: '#444', strokeWidth: 0.22 }
+  const [ok, w1, w2, w3] = [x + 12, x + 29, x + 34, x + 39]
+  return (
+    <g fontSize={2.4} fill="#333">
+      <text x={x} y={y} dominantBaseline="central">Use a dark pencil or pen. Fill the circle completely.</text>
+      <text x={x} y={cy} dominantBaseline="central">Correct:</text>
+      <circle cx={ok} cy={cy} r={r} fill="#222" />
+      <text x={x + 18} y={cy} dominantBaseline="central">Wrong:</text>
+      <g {...line}>
+        <circle cx={w1} cy={cy} r={r} /><path d={`M${w1 - 0.9},${cy} l0.7,0.8 l1.2,-1.6`} />
+        <circle cx={w2} cy={cy} r={r} /><path d={`M${w2 - 0.9},${cy - 0.9} l1.8,1.8 m0,-1.8 l-1.8,1.8`} />
+        <circle cx={w3} cy={cy} r={r} />
+      </g>
+      <path d={`M${w3},${cy - r} a${r},${r} 0 0 1 0,${2 * r} z`} fill="#222" />
+    </g>
+  )
+}
+
 function Form({ form }: { form: SheetForm }) {
+  const cell = cellSize(form.perPage)
   const l = layoutForm(form)
   const head = headerLayout(form)
   const { x: fx, y: fy } = l.frameOrigin
@@ -20,6 +41,7 @@ function Form({ form }: { form: SheetForm }) {
   return (
     <g>
       <text x={1} y={5} fontSize={4.5} fontWeight="bold">{form.title}</text>
+      <text x={cell.w - 1} y={5} fontSize={3} textAnchor="end">Score: ______ / {form.items}</text>
       {head.lines.map((l, i) => <text key={i} x={1} y={l.y} fontSize={3} fill="#333">{l.t}</text>)}
       {head.fields.map((f, i) => (
         <g key={i}>
@@ -39,6 +61,7 @@ function Form({ form }: { form: SheetForm }) {
           </g>
         ))}
       </g>
+      {cell.h - (fy + l.h + MARKER / 2) >= 13 && <MarkGuide x={fx - MARKER / 2} y={fy + l.h + MARKER / 2 + 4} />}
     </g>
   )
 }
