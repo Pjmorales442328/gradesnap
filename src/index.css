@@ -1,0 +1,84 @@
+:root {
+  --accent: #0f766e;
+  --bg: #f8fafc;
+  --card: #fff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --ok: #15803d;
+  --bad: #b91c1c;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 860px; margin: 0 auto; padding: 16px; }
+h2 { margin: 0 0 12px; font-size: 1.3rem; }
+
+header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--accent); }
+header a { color: #fff; text-decoration: none; opacity: 0.8; }
+header a.active, .brand { opacity: 1; font-weight: 600; }
+header nav { display: flex; gap: 14px; margin-left: auto; }
+
+button, .button {
+  font: inherit; padding: 9px 14px; border-radius: 8px; border: 1px solid var(--line);
+  background: var(--card); color: var(--text); cursor: pointer; display: inline-block;
+}
+button:disabled { opacity: 0.5; cursor: default; }
+.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.danger { color: var(--bad); }
+button.link { border: 0; background: none; padding: 2px 4px; text-decoration: underline; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--bad); }
+
+.list { list-style: none; padding: 0; margin: 14px 0; display: grid; gap: 8px; }
+.list li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; cursor: pointer; display: grid; gap: 2px; }
+
+.tabs { display: flex; gap: 4px; overflow-x: auto; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+.tabs a { padding: 8px 12px; text-decoration: none; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; }
+.tabs a.active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+.form { display: grid; gap: 12px; max-width: 480px; }
+.form label { display: grid; gap: 4px; font-size: 0.9rem; color: var(--muted); }
+input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--text); }
+
+.key-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 18px; }
+.key-row { display: flex; align-items: center; gap: 6px; }
+.key-row .num { width: 28px; text-align: right; color: var(--muted); }
+.bubble { width: 34px; height: 34px; border-radius: 50%; padding: 0; font-size: 0.8rem; }
+.bubble.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.print-area { margin-top: 14px; overflow: auto; border: 1px solid var(--line); }
+.print-area .sheet { display: block; width: 100%; height: auto; }
+
+.viewfinder { position: relative; background: #000; border-radius: 10px; overflow: hidden; }
+.viewfinder video, .viewfinder canvas { display: block; width: 100%; height: auto; }
+.viewfinder canvas { position: absolute; inset: 0; height: 100%; }
+.viewfinder .hint { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; color: #fff; margin: 0; text-shadow: 0 1px 3px #000; }
+.toggle { display: flex; gap: 6px; align-items: center; font-size: 0.9rem; }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin: 12px 0; }
+.card h3 { margin: 0; }
+.score { font-size: 1.8rem; font-weight: 700; margin: 6px 0; color: var(--accent); }
+.marks { display: flex; flex-wrap: wrap; gap: 4px; font-size: 0.8rem; font-family: ui-monospace, monospace; }
+.marks span { padding: 2px 5px; border-radius: 4px; }
+.marks .ok { background: #dcfce7; }
+.marks .bad { background: #fee2e2; }
+
+.stats { font-weight: 600; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; margin-top: 12px; background: var(--card); font-size: 0.9rem; }
+th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+td.ok { font-weight: 700; color: var(--ok); }
+td.retain { color: var(--ok); }
+td.reject { color: var(--bad); }
+
+@media print {
+  @page { size: A4; margin: 0; }
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area { position: absolute; left: 0; top: 0; margin: 0; border: 0; overflow: visible; }
+  .print-area .sheet { width: 210mm; height: 297mm; }
+}
