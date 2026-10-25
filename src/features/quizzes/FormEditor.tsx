@@ -49,9 +49,11 @@ export function FormEditor({ quiz, data, save, remove, duplicate }: Props) {
           </label>
           <label>Forms per page
             <select value={f.perPage} onChange={(e) => set({ perPage: +e.target.value })}>
-              {Object.keys(PER_PAGE).map(Number).map((n) => (
-                <option key={n} value={n}>{n} (max {layoutForm({ ...f, perPage: n }).capacity} items)</option>
-              ))}
+              {Object.keys(PER_PAGE).map(Number).map((n) => {
+                const cap = layoutForm({ ...f, perPage: n }).capacity
+                // ponytail: no room for a 10-row ID column; two-column ID block if teachers need 8-up with IDs
+                return <option key={n} value={n} disabled={!cap && n !== f.perPage}>{n} ({cap ? `max ${cap} items` : 'too small for ID'})</option>
+              })}
             </select>
           </label>
         </div>
