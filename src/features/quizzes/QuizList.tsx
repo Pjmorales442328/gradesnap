@@ -15,7 +15,7 @@ export function QuizList({ data, update }: { data: AppData; update: Update }) {
   return (
     <section>
       <button className="primary" onClick={create}>+ New quiz</button>
-      {sorted.length === 0 && <p className="muted">No quizzes yet. Create one, set the key, print sheets, then scan.</p>}
+      {sorted.length === 0 && <p className="empty">No quizzes yet. Create one, set the key, print sheets, then scan.</p>}
       <ul className="list">
         {sorted.map((q) => {
           const n = data.results.filter((r) => r.quizId === q.id).length

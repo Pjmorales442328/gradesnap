@@ -4,11 +4,11 @@ import { PER_PAGE, layoutForm } from '../../lib/sheetLayout'
 import { AnswerSheet } from '../../components/AnswerSheet'
 import { withForm } from './quizModel'
 
-interface Props { quiz: Quiz; data: AppData; save: (q: Quiz) => void; remove: () => void }
+interface Props { quiz: Quiz; data: AppData; save: (q: Quiz) => void; remove: () => void; duplicate: () => void }
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Math.round(v) || lo))
 
-export function FormEditor({ quiz, data, save, remove }: Props) {
+export function FormEditor({ quiz, data, save, remove, duplicate }: Props) {
   const f = quiz.form
   const set = (patch: Partial<SheetForm>) => save(withForm(quiz, { ...f, ...patch }))
   const capacity = layoutForm(f).capacity
@@ -58,6 +58,7 @@ export function FormEditor({ quiz, data, save, remove }: Props) {
         </label>
         <button className="primary" disabled={!fits} onClick={() => print()}>Print / Save PDF</button>
         <p className="muted">A4 page. On Letter/Short bond use "Fit to page". Header text can change any time; changing items, choices, ID digits or forms per page makes already-printed sheets unreadable.</p>
+        <button onClick={duplicate}>Duplicate quiz (for another section)</button>
         <button className="danger" onClick={() => confirm('Delete this quiz and its results?') && remove()}>Delete quiz</button>
       </div>
       <div className="print-area"><AnswerSheet form={f} /></div>

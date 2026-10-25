@@ -36,7 +36,7 @@ export function itemAnalysis(results: Result[], key: number[], choices: number):
     }
     const difficulty = p(results, i)
     const discrimination = p(upper, i) - p(lower, i)
-    const goodP = difficulty > 0.2 && difficulty < 0.8
+    const goodP = difficulty > 0.2 && difficulty <= 0.8
     const remark = discrimination >= 0.3 && goodP ? 'Retain' : discrimination >= 0.2 || !k ? 'Revise' : 'Reject'
     return { item: i + 1, difficulty, discrimination, counts, remark }
   })

@@ -14,6 +14,7 @@ export function ClassList({ data, update }: { data: AppData; update: Update }) {
   return (
     <section>
       <button className="primary" onClick={create}>+ New class</button>
+      {data.classes.length === 0 && <p className="empty">No classes yet. Add a class and paste its roster so scanned IDs show student names.</p>}
       <ul className="list">
         {data.classes.map((c) => (
           <li key={c.id} onClick={() => go('class', c.id)}>

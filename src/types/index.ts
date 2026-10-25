@@ -22,11 +22,18 @@ export interface SheetForm {
   perPage: number; // forms printed per A4 page: 1, 2, 3, 4, 6, 8
 }
 
+// A learning competency and the items that measure it, e.g. { name: 'Describe matter', items: '1-5, 9' }
+export interface Competency {
+  name: string;
+  items: string;
+}
+
 export interface Quiz {
   id: string;
   form: SheetForm;
   key: number[]; // bitmask of accepted choices per item; 0 = unset
   classId?: string;
+  competencies?: Competency[];
   updatedAt: number;
 }
 

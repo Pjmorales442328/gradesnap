@@ -11,6 +11,14 @@ export const newQuiz = (): Quiz => ({
   updatedAt: Date.now(),
 })
 
+// Copy for reuse with another section: same form, key and competencies, no results.
+export const copyQuiz = (q: Quiz): Quiz => ({
+  ...structuredClone(q),
+  id: crypto.randomUUID(),
+  form: { ...q.form, title: `${q.form.title} (copy)` },
+  updatedAt: Date.now(),
+})
+
 export function withForm(q: Quiz, form: SheetForm): Quiz {
   const allowed = (1 << form.choices) - 1
   const key = Array.from({ length: form.items }, (_, i) => (q.key[i] ?? 0) & allowed)
