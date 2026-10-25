@@ -6,7 +6,7 @@ export function Histogram({ bins }: { bins: number[] }) {
   const band = (W - PAD.l - PAD.r) / bins.length
   const bar = Math.min(24, band - 6)
   const y = (v: number) => PAD.t + (H - PAD.t - PAD.b) * (1 - v / max)
-  const ticks = [0, Math.ceil(max / 2), max]
+  const ticks = [...new Set([0, Math.ceil(max / 2), max])]
   const label = (i: number) => (i === 9 ? '90–100' : `${i * 10}–${i * 10 + 9}`)
   const r = 4
 

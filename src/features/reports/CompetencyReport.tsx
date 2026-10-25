@@ -14,6 +14,21 @@ export function CompetencyReport({ quiz, rs, save }: ReportProps) {
 
   return (
     <>
+      {/* ponytail: editor sits above the table so a blur-commit growing the table never shifts the buttons mid-click */}
+      <div className="comp-editor no-print">
+        <h4>Map items to competencies</h4>
+        {draft.map((c, i) => (
+          <div key={i} className="comp-row">
+            <input placeholder="Competency, e.g. Describe the particle nature of matter" value={c.name}
+              onChange={(e) => edit(i, { name: e.target.value })} onBlur={() => commit(draft)} />
+            <input placeholder="Items, e.g. 1-5, 9" value={c.items} className="items-input"
+              onChange={(e) => edit(i, { items: e.target.value })} onBlur={() => commit(draft)} />
+            <button className="link danger" aria-label="Remove competency" onClick={() => { const next = draft.filter((_, j) => j !== i); setDraft(next); commit(next) }}>✕</button>
+          </div>
+        ))}
+        <button onClick={() => setDraft([...draft, { name: '', items: '' }])}>+ Add competency</button>
+        <p className="muted small">{missing > 0 ? `${missing} item(s) not mapped to any competency yet.` : 'All items are mapped.'} Below 75% MPS is flagged for remediation.</p>
+      </div>
       {rows.length > 0 && (
         <table className="data">
           <thead><tr><th>Learning competency</th><th>Items</th><th className="bar-col">MPS</th><th>Mastery level</th></tr></thead>
@@ -32,20 +47,6 @@ export function CompetencyReport({ quiz, rs, save }: ReportProps) {
           </tbody>
         </table>
       )}
-      <div className="comp-editor no-print">
-        <h4>Map items to competencies</h4>
-        {draft.map((c, i) => (
-          <div key={i} className="comp-row">
-            <input placeholder="Competency, e.g. Describe the particle nature of matter" value={c.name}
-              onChange={(e) => edit(i, { name: e.target.value })} onBlur={() => commit(draft)} />
-            <input placeholder="Items, e.g. 1-5, 9" value={c.items} className="items-input"
-              onChange={(e) => edit(i, { items: e.target.value })} onBlur={() => commit(draft)} />
-            <button className="link danger" aria-label="Remove competency" onClick={() => { const next = draft.filter((_, j) => j !== i); setDraft(next); commit(next) }}>✕</button>
-          </div>
-        ))}
-        <button onClick={() => setDraft([...draft, { name: '', items: '' }])}>+ Add competency</button>
-        <p className="muted small">{missing > 0 ? `${missing} item(s) not mapped to any competency yet.` : 'All items are mapped.'} Below 75% MPS is flagged for remediation.</p>
-      </div>
     </>
   )
 }
