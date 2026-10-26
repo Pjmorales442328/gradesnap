@@ -1,0 +1,17 @@
+/* Printing: answer sheets print edge-to-edge; reports print with margins and no app chrome. */
+@page { size: A4; margin: 12mm; }
+@page sheet { size: A4; margin: 0; }
+@media print {
+  :root { --paper: #fff; --card: #fff; --text: #000; --line: #ccc; --gridline: #ddd; --series: #1e4fa3; --fill: #23262d; --on-fill: #fff; --bad-bg: #fbe5e3; --warn-bg: #fff4cc; }
+  .print-area { page: sheet; margin: 0; border: 0; box-shadow: none; overflow: visible; position: static; }
+  .print-area .sheet { width: 210mm; height: 297mm; }
+  main:has(.print-area) > section > .page-head, .designer > .form { display: none; }
+  .designer { display: block; }
+  #root > header, .steps, .tabs, .subtabs, .no-print { display: none !important; }
+  main { max-width: none; padding: 0; }
+  .scroll { overflow: visible; }
+  .matrix .sticky { position: static; }
+  tr, .tile, .chart { break-inside: avoid; }
+  .tile:first-child { background: #fff; color: #000; border-color: #ccc; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

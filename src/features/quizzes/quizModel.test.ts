@@ -15,3 +15,14 @@ test('every preset fits on its page', async () => {
   const { layoutForm } = await import('../../lib/sheetLayout')
   for (const p of PRESETS) expect(layoutForm({ ...DEFAULT_FORM, ...p.form }).capacity, p.name).toBeGreaterThanOrEqual(p.form.items)
 })
+
+test('quizProgress points to the next unfinished step', async () => {
+  const { quizProgress, DEFAULT_FORM } = await import('./quizModel')
+  const q = { id: 'q', form: { ...DEFAULT_FORM, items: 2 }, key: [1, 0], updatedAt: 0 }
+  const d = { classes: [], quizzes: [q], results: [] }
+  expect(quizProgress(d, q)).toMatchObject({ keyed: 1, next: 'key', mps: null })
+  const keyed = { ...q, key: [1, 2] }
+  expect(quizProgress(d, keyed).next).toBe('scan')
+  const r = { id: 'r', quizId: 'q', studentId: '1', answers: [1, 1], score: 1, scannedAt: 0 }
+  expect(quizProgress({ ...d, results: [r] }, keyed)).toMatchObject({ papers: 1, mps: 50, next: 'results' })
+})

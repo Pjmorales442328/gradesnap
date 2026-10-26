@@ -27,9 +27,9 @@ export function Backup({ data, update }: { data: AppData; update: Update }) {
 
   return (
     <section className="form">
-      <h2>Backup &amp; restore</h2>
+      <h1>Backup &amp; restore</h1>
       <p className="muted">Everything is stored only in this browser. Download a backup regularly and before clearing browser data or switching phones.</p>
-      <p>{data.quizzes.length} quizzes · {data.classes.length} classes · {data.results.length} scanned papers</p>
+      <p>{data.quizzes.length} quizzes · {data.classes.length} {data.classes.length === 1 ? 'class' : 'classes'} · {data.results.length} scanned papers</p>
       <button className="primary" onClick={save}>Download backup</button>
       <label>Restore from a backup file
         <input type="file" accept="application/json,.json" onChange={(e) => { restore(e.target.files?.[0]); e.target.value = '' }} />

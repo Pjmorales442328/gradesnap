@@ -18,12 +18,17 @@ export default function App() {
   return (
     <>
       <header>
-        <a href="#/" className="brand">GradeSnap</a>
-        <nav>
-          <a href="#/" className={!page || page === 'quiz' ? 'active' : ''}>Quizzes</a>
-          <a href="#/classes" className={page?.startsWith('class') ? 'active' : ''}>Classes</a>
-          <a href="#/settings" className={page === 'settings' ? 'active' : ''}>Backup</a>
-        </nav>
+        <div className="bar-inner">
+          <a href="#/" className="brand" aria-label="GradeSnap home">
+            <svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="#fff" strokeWidth="2.5" /><circle cx="13" cy="13" r="6.5" fill="#f5b800" /></svg>
+            <span>GradeSnap</span>
+          </a>
+          <nav>
+            <a href="#/" className={!page || page === 'quiz' ? 'active' : ''}>Quizzes</a>
+            <a href="#/classes" className={page?.startsWith('class') ? 'active' : ''}>Classes</a>
+            <a href="#/settings" className={page === 'settings' ? 'active' : ''}>Backup</a>
+          </nav>
+        </div>
       </header>
       <main>
         {quiz ? <QuizPage quiz={quiz} tab={tab ?? 'key'} sub={sub} data={data} update={update} />

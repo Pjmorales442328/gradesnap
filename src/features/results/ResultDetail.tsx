@@ -56,7 +56,7 @@ export function ResultDetail({ quiz, data, update, resultId }: Props) {
               <span className="num">{i + 1}</span>
               {Array.from({ length: quiz.form.choices }, (_, c) => {
                 const marked = a & (1 << c)
-                const cls = marked ? (ok ? 'on' : 'on wrong') : k & (1 << c) ? 'keyed' : ''
+                const cls = marked ? (ok ? 'on right' : 'on wrong') : k & (1 << c) ? 'keyed' : ''
                 return <button key={c} className={`bubble ${cls}`} aria-pressed={!!marked} onClick={() => toggle(i, c)}>{choiceLetter(c)}</button>
               })}
             </div>

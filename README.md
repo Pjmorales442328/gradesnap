@@ -50,6 +50,8 @@ src/
   services/         IndexedDB persistence, backup file format
   hooks/            app state, hash routing
   components/       AnswerSheet (printable SVG)
+  styles/           base (tokens, dark mode), layout, reports, print — imported by index.css
+  assets/           Figtree font (self-hosted so it works offline)
   features/
     quizzes/        quiz list, sheet designer (live preview + print), key editor
     scan/           camera, continuous scanner, overlay, result card

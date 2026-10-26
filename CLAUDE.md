@@ -27,6 +27,9 @@ Deps: `idb-keyval` (storage); dev: `vitest`.
   DM 160 s.2012 mastery levels, upper/lower 27% discrimination.
 - Routes are hash-based: `#/quiz/<id>/<tab>[/<sub>]` (sub = report id or result id), `#/classes`,
   `#/class/<id>/<roster|gradebook>`, `#/settings` (backup).
+- Look: pencil-and-paper palette in `styles/base.css` (graphite, pencil yellow, ink blue, red-pen, check green), Figtree
+  self-hosted from `src/assets`. Quiz tabs are a numbered step bar (`.steps`); a step bubble is shaded when
+  `quizProgress` (`quizModel.ts`) says it is done. Home cards link to `quizProgress().next`.
 - Printing: `.print-area` (answer sheets) uses the zero-margin named `@page sheet`; everything else prints with
   12mm margins and no app chrome (`.no-print`, `#root > header`, tabs hidden).
 

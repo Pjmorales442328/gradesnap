@@ -13,14 +13,26 @@ export function ClassList({ data, update }: { data: AppData; update: Update }) {
   }
   return (
     <section>
-      <button className="primary" onClick={create}>+ New class</button>
+      <div className="page-head">
+        <h1>Classes</h1>
+        <button className="primary" onClick={create}>New class</button>
+      </div>
       {data.classes.length === 0 && <p className="empty">No classes yet. Add a class and paste its roster so scanned IDs show student names.</p>}
       <ul className="list">
-        {data.classes.map((c) => (
-          <li key={c.id} onClick={() => go('class', c.id)}>
-            <strong>{c.name}</strong><span className="muted">{c.students.length} students</span>
-          </li>
-        ))}
+        {data.classes.map((c) => {
+          const quizzes = data.quizzes.filter((q) => q.classId === c.id).length
+          return (
+            <li key={c.id}>
+              <a href={`#/class/${c.id}/roster`}>
+                <span className="grow">
+                  <strong>{c.name}</strong>
+                  <span className="muted small">{c.students.length} students · {quizzes} {quizzes === 1 ? 'quiz' : 'quizzes'}</span>
+                </span>
+                <span className="button">Open</span>
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </section>
   )

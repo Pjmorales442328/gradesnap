@@ -1,6 +1,7 @@
 // Quiz creation and form-change rules (key length follows item count).
 import type { AppData, Quiz, SheetForm } from '../../types'
 import { scoreOf } from '../../lib/grade'
+import { layoutForm } from '../../lib/sheetLayout'
 
 export const DEFAULT_FORM: SheetForm = { title: 'Quiz', items: 20, choices: 4, idDigits: 4, fields: ['Name', 'Section', 'Date'], instructions: '', perPage: 2 }
 
@@ -40,3 +41,14 @@ export const saveQuiz = (d: AppData, q: Quiz): AppData => ({
   quizzes: d.quizzes.map((x) => (x.id === q.id ? { ...q, updatedAt: Date.now() } : x)),
   results: d.results.map((r) => (r.quizId === q.id ? { ...r, score: scoreOf(r.answers, q.key) } : r)),
 })
+
+// Where a quiz stands in the print → key → scan workflow, for the home list and the step bar.
+export function quizProgress(d: AppData, q: Quiz) {
+  const scores = d.results.filter((r) => r.quizId === q.id).map((r) => r.score)
+  const keyed = q.key.filter(Boolean).length
+  const papers = scores.length
+  const mps = papers ? (scores.reduce((a, b) => a + b, 0) / papers / q.form.items) * 100 : null
+  const done = { form: layoutForm(q.form).capacity >= q.form.items, key: keyed === q.form.items, scan: papers > 0 }
+  const next = !done.form ? 'form' : !done.key ? 'key' : !done.scan ? 'scan' : 'results'
+  return { keyed, papers, mps, done, next }
+}
